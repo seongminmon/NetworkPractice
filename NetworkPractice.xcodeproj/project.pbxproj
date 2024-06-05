@@ -18,6 +18,7 @@
 		2426F5022C106857005350A9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5012C106857005350A9 /* SignInViewController.swift */; };
 		2426F5042C10687D005350A9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5032C10687D005350A9 /* HomeViewController.swift */; };
 		2426F5062C10688E005350A9 /* LottoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5052C10688E005350A9 /* LottoViewController.swift */; };
+		2426F5082C10721C005350A9 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5072C10721C005350A9 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		2426F5012C106857005350A9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		2426F5032C10687D005350A9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2426F5052C10688E005350A9 /* LottoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoViewController.swift; sourceTree = "<group>"; };
+		2426F5072C10721C005350A9 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			children = (
 				2426F4E32C1061F2005350A9 /* AppDelegate.swift */,
 				2426F4E52C1061F2005350A9 /* SceneDelegate.swift */,
+				2426F5072C10721C005350A9 /* UIColor+Extension.swift */,
 				2426F4F92C1067B5005350A9 /* APIKey.swift */,
 				2426F5032C10687D005350A9 /* HomeViewController.swift */,
 				2426F5012C106857005350A9 /* SignInViewController.swift */,
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2426F5082C10721C005350A9 /* UIColor+Extension.swift in Sources */,
 				2426F4E42C1061F2005350A9 /* AppDelegate.swift in Sources */,
 				2426F4FA2C1067B5005350A9 /* APIKey.swift in Sources */,
 				2426F5062C10688E005350A9 /* LottoViewController.swift in Sources */,

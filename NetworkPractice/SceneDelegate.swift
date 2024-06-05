@@ -16,7 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let vc = SignInViewController()
+//        let vc = SignInViewController()
+//        let vc = HomeViewController()
+        let vc = LottoViewController()
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
     }
