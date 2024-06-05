@@ -142,8 +142,6 @@ class LottoViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .white
-        
         textField.placeholder = "회차를 입력해보세요"
         textField.keyboardType = .numberPad
         textField.layer.cornerRadius = 10
