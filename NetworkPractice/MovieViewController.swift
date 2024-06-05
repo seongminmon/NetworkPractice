@@ -9,6 +9,19 @@ import UIKit
 import SnapKit
 import Alamofire
 
+struct MovieResult: Codable {
+    let boxOfficeResult: BoxOfficeResult
+}
+
+struct BoxOfficeResult: Codable {
+    let boxofficeType, showRange: String
+    let dailyBoxOfficeList: [Movie]
+}
+
+struct Movie: Codable {
+    let rank, movieNm, openDt: String
+}
+
 class MovieViewController: UIViewController {
 
     let backgroundImageView = UIImageView()
@@ -17,6 +30,8 @@ class MovieViewController: UIViewController {
     let searchButton = UIButton()
     let tableView = UITableView()
     
+    var movieList: [Movie] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +39,8 @@ class MovieViewController: UIViewController {
         configureLayout()
         configureUI()
         configureTableView()
+        
+        callRequest("20240604")
     }
     
     func configureHierarchy() {
@@ -61,7 +78,7 @@ class MovieViewController: UIViewController {
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(separator.snp.bottom).offset(16)
-            make.horizontalEdges.bottom.equalToSuperview().inset(16)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
     
@@ -93,19 +110,40 @@ class MovieViewController: UIViewController {
     }
     
     @objc func searchButtonClicked() {
+        callRequest(textField.text!)
         view.endEditing(true)
     }
     
+    func callRequest(_ dateString: String) {
+        let url = APIURL.movieURL
+        AF.request(url + dateString).responseDecodable(of: MovieResult.self) { response in
+            switch response.result {
+            case .success(let value):
+                print("SUCCESS")
+                self.movieList = value.boxOfficeResult.dailyBoxOfficeList
+                self.tableView.reloadData()
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 extension MovieViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return movieList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.identifier, for: indexPath) as! MovieTableViewCell
-        cell.backgroundColor = .purple
+        
+        let movie = movieList[indexPath.row]
+        cell.numberLabel.text = movie.rank
+        cell.titleLabel.text = movie.movieNm
+        cell.dateLabel.text = movie.openDt
+        
+        cell.backgroundColor = .clear
         return cell
     }
 }
