@@ -139,9 +139,7 @@ extension MovieViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.identifier, for: indexPath) as! MovieTableViewCell
         
         let movie = movieList[indexPath.row]
-        cell.numberLabel.text = movie.rank
-        cell.titleLabel.text = movie.movieNm
-        cell.dateLabel.text = movie.openDt
+        cell.configureCell(movie)
         
         cell.backgroundColor = .clear
         return cell

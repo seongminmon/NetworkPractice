@@ -19,7 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let vc = SignInViewController()
 //        let vc = HomeViewController()
 //        let vc = LottoViewController()
-        let vc = MovieViewController()
+//        let vc = MovieViewController()
+        let vc = WeatherViewController()
         
         window?.rootViewController = vc
         window?.backgroundColor = .white
