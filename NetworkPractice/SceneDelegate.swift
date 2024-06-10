@@ -15,14 +15,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        
-//        let vc = SignInViewController()
-//        let vc = HomeViewController()
-//        let vc = LottoViewController()
-//        let vc = MovieViewController()
-        let vc = WeatherViewController()
-        
-        window?.rootViewController = vc
+
+        let vc = TrendViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        window?.rootViewController = nav
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()
     }
