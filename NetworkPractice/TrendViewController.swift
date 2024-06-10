@@ -89,6 +89,11 @@ struct TrendMovie: Decodable {
     }
 }
 
+enum TimeWindow: String {
+    case week
+    case day
+}
+
 class TrendViewController: UIViewController {
     
     let tableView = UITableView()
@@ -96,6 +101,13 @@ class TrendViewController: UIViewController {
     var trendMovieResult: TrendMovieResponse? {
         didSet {
             tableView.reloadData()
+        }
+    }
+    
+    var timeWindow: TimeWindow = .day {
+        didSet {
+            navigationItem.title = timeWindow.rawValue
+            callRequest()
         }
     }
 
@@ -109,6 +121,8 @@ class TrendViewController: UIViewController {
     }
     
     func configureNavigationBar() {
+        navigationItem.title = timeWindow.rawValue
+        
         let menuButton = UIBarButtonItem(
             image: UIImage(systemName: "list.triangle"),
             style: .plain,
@@ -127,6 +141,24 @@ class TrendViewController: UIViewController {
     
     @objc func menuButtonTapped() {
         print(#function)
+        let alert = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let day = UIAlertAction(title: "Day", style: .default) { _ in
+            self.timeWindow = .day
+        }
+        
+        let week = UIAlertAction(title: "Week", style: .default){ _ in
+            self.timeWindow = .week
+        }
+        
+        alert.addAction(day)
+        alert.addAction(week)
+        
+        present(alert, animated: true)
     }
     
     @objc func searchButtonTapped() {
@@ -153,7 +185,7 @@ class TrendViewController: UIViewController {
     }
     
     func callRequest() {
-        let url = APIURL.weekMovieTrendURL
+        let url = APIURL.weekMovieTrendURL + timeWindow.rawValue
         
         let param: Parameters = [
             "language" : "en-US"
@@ -198,5 +230,9 @@ extension TrendViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(#function, indexPath)
     }
 }
