@@ -190,7 +190,7 @@ class TrendTableViewCell: UITableViewCell {
         guard let data else { return }
         dateLabel.text = data.dateString
         genreLabel.text = data.genreText
-        posterImageView.kf.setImage(with: data.imageURL)
+        posterImageView.kf.setImage(with: data.posterImageURL)
         scoreLabel.text = data.score
         titleLabel.text = data.title
         descriptionLabel.text = data.overview

@@ -24,16 +24,19 @@ struct TrendMovieResponse: Decodable {
 }
 
 struct TrendMovie: Decodable {
+    let id: Int
     let title: String
     let posterPath: String
+    let backdropPath: String
     let releaseDate: String
     let voteAverage: Double
     let overview: String
     let genreIds: [Int]
     
     enum CodingKeys: String, CodingKey {
-        case title, overview
+        case id, title, overview
         case posterPath = "poster_path"
+        case backdropPath = "backdrop_path"
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
         case genreIds = "genre_ids"
@@ -72,7 +75,7 @@ struct TrendMovie: Decodable {
     }
     
     var dateString: String {
-        var formatter = DateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
         let date = formatter.date(from: releaseDate)!
@@ -80,8 +83,12 @@ struct TrendMovie: Decodable {
         return formatter.string(from: date)
     }
     
-    var imageURL: URL? {
+    var posterImageURL: URL? {
         return URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)")
+    }
+    
+    var backdropImageURL: URL? {
+        return URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)")
     }
     
     var score: String {
@@ -137,6 +144,8 @@ class TrendViewController: UIViewController {
         )
         navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItem = searchButton
+        
+        navigationItem.backButtonDisplayMode = .minimal
     }
     
     @objc func menuButtonTapped() {
@@ -233,6 +242,8 @@ extension TrendViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function, indexPath)
+        let vc = TrendDetailViewController()
+        vc.movie = trendMovieResult?.results[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
