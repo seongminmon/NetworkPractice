@@ -213,8 +213,10 @@ class TrendViewController: UIViewController {
         ).responseDecodable(of: TrendMovieResponse.self) { response in
             switch response.result {
             case .success(let value):
-                dump(value)
+                print("trendMovieResult Success")
+//                dump(value)
                 self.trendMovieResult = value
+                
             case .failure(let error):
                 print(error)
             }
