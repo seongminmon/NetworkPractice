@@ -90,20 +90,44 @@
 				2426F4F92C1067B5005350A9 /* APIKey.swift */,
 				2426F50D2C1097A8005350A9 /* ReuseIdentifierProtocol.swift */,
 				2426F5072C10721C005350A9 /* UIColor+Extension.swift */,
-				2426F5032C10687D005350A9 /* HomeViewController.swift */,
-				2426F5012C106857005350A9 /* SignInViewController.swift */,
-				2426F5052C10688E005350A9 /* LottoViewController.swift */,
-				2426F50F2C118021005350A9 /* WeatherViewController.swift */,
-				2426F5092C108CAE005350A9 /* MovieViewController.swift */,
-				2426F50B2C10971F005350A9 /* MovieTableViewCell.swift */,
-				2426F5532C16DC64005350A9 /* TrendViewController.swift */,
-				2426F5582C16EC0D005350A9 /* TrendTableViewCell.swift */,
-				2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */,
+				2426F55E2C17F111005350A9 /* CodeBase */,
+				2426F55F2C17F11D005350A9 /* Network */,
+				2426F5622C1811E8005350A9 /* Media */,
 				2426F4EC2C1061F4005350A9 /* Assets.xcassets */,
 				2426F4EE2C1061F4005350A9 /* LaunchScreen.storyboard */,
 				2426F4F12C1061F4005350A9 /* Info.plist */,
 			);
 			path = NetworkPractice;
+			sourceTree = "<group>";
+		};
+		2426F55E2C17F111005350A9 /* CodeBase */ = {
+			isa = PBXGroup;
+			children = (
+				2426F5032C10687D005350A9 /* HomeViewController.swift */,
+				2426F5012C106857005350A9 /* SignInViewController.swift */,
+			);
+			path = CodeBase;
+			sourceTree = "<group>";
+		};
+		2426F55F2C17F11D005350A9 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				2426F5052C10688E005350A9 /* LottoViewController.swift */,
+				2426F50F2C118021005350A9 /* WeatherViewController.swift */,
+				2426F5092C108CAE005350A9 /* MovieViewController.swift */,
+				2426F50B2C10971F005350A9 /* MovieTableViewCell.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		2426F5622C1811E8005350A9 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				2426F5532C16DC64005350A9 /* TrendViewController.swift */,
+				2426F5582C16EC0D005350A9 /* TrendTableViewCell.swift */,
+				2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */,
+			);
+			path = Media;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

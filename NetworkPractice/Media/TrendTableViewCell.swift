@@ -73,7 +73,6 @@ class TrendTableViewCell: UITableViewCell {
         shadowView.snp.makeConstraints { make in
             make.top.equalTo(genreLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
-            make.height.equalTo(shadowView.snp.width).multipliedBy(1.1)
             make.bottom.equalToSuperview().inset(16)
         }
         
@@ -132,15 +131,14 @@ class TrendTableViewCell: UITableViewCell {
             make.top.equalTo(separator.snp.bottom).offset(8)
             make.leading.equalToSuperview().inset(16)
             make.trailing.equalTo(detailImageView.snp.leading).offset(-16)
-            make.height.equalTo(30)
             make.bottom.equalToSuperview().inset(8)
         }
         
         detailImageView.snp.makeConstraints { make in
             make.top.equalTo(separator.snp.bottom).offset(8)
-            make.trailing.equalToSuperview().inset(16)
-            make.size.equalTo(30)
             make.bottom.equalToSuperview().inset(8)
+            make.trailing.equalToSuperview().inset(16)
+            make.width.equalTo(detailImageView.snp.height)
         }
         
         dateLabel.font = .systemFont(ofSize: 13)
