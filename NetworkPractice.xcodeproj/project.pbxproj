@@ -27,6 +27,8 @@
 		2426F5572C16E0E9005350A9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2426F5562C16E0E9005350A9 /* Kingfisher */; };
 		2426F5592C16EC0D005350A9 /* TrendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5582C16EC0D005350A9 /* TrendTableViewCell.swift */; };
 		2426F55B2C174A02005350A9 /* TrendDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */; };
+		2426F5682C1839BB005350A9 /* MovieSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5672C1839BB005350A9 /* MovieSearchViewController.swift */; };
+		2426F56A2C183E6D005350A9 /* MovieSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5692C183E6D005350A9 /* MovieSearchCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		2426F5532C16DC64005350A9 /* TrendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendViewController.swift; sourceTree = "<group>"; };
 		2426F5582C16EC0D005350A9 /* TrendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendTableViewCell.swift; sourceTree = "<group>"; };
 		2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDetailViewController.swift; sourceTree = "<group>"; };
+		2426F5672C1839BB005350A9 /* MovieSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchViewController.swift; sourceTree = "<group>"; };
+		2426F5692C183E6D005350A9 /* MovieSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +130,8 @@
 				2426F5532C16DC64005350A9 /* TrendViewController.swift */,
 				2426F5582C16EC0D005350A9 /* TrendTableViewCell.swift */,
 				2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */,
+				2426F5672C1839BB005350A9 /* MovieSearchViewController.swift */,
+				2426F5692C183E6D005350A9 /* MovieSearchCollectionViewCell.swift */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -214,11 +220,13 @@
 				2426F5082C10721C005350A9 /* UIColor+Extension.swift in Sources */,
 				2426F4E42C1061F2005350A9 /* AppDelegate.swift in Sources */,
 				2426F50C2C10971F005350A9 /* MovieTableViewCell.swift in Sources */,
+				2426F56A2C183E6D005350A9 /* MovieSearchCollectionViewCell.swift in Sources */,
 				2426F55B2C174A02005350A9 /* TrendDetailViewController.swift in Sources */,
 				2426F50E2C1097A8005350A9 /* ReuseIdentifierProtocol.swift in Sources */,
 				2426F5542C16DC64005350A9 /* TrendViewController.swift in Sources */,
 				2426F4FA2C1067B5005350A9 /* APIKey.swift in Sources */,
 				2426F50A2C108CAE005350A9 /* MovieViewController.swift in Sources */,
+				2426F5682C1839BB005350A9 /* MovieSearchViewController.swift in Sources */,
 				2426F5062C10688E005350A9 /* LottoViewController.swift in Sources */,
 				2426F5022C106857005350A9 /* SignInViewController.swift in Sources */,
 				2426F5592C16EC0D005350A9 /* TrendTableViewCell.swift in Sources */,
