@@ -10,7 +10,6 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-// MARK: - quicktype.io
 struct Credit: Codable {
     let id: Int
     let cast, crew: [Cast]
@@ -74,12 +73,9 @@ class TrendDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(Sections.allCases.count)
-//        print(movie)
         configureNavigationBar()
         configureHierarchy()
         configureLayout()
-        configureUI()
         configureTableView()
         callRequest()
     }
@@ -96,10 +92,6 @@ class TrendDetailViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-    }
-    
-    func configureUI() {
-        
     }
     
     func configureTableView() {

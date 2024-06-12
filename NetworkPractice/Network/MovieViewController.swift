@@ -15,10 +15,10 @@ struct MovieResult: Codable {
 
 struct BoxOfficeResult: Codable {
     let boxofficeType, showRange: String
-    let dailyBoxOfficeList: [Movie]
+    let dailyBoxOfficeList: [BoxOffice]
 }
 
-struct Movie: Codable {
+struct BoxOffice: Codable {
     let rank, movieNm, openDt: String
 }
 
@@ -30,7 +30,7 @@ class MovieViewController: UIViewController {
     let searchButton = UIButton()
     let tableView = UITableView()
     
-    var movieList: [Movie] = []
+    var boxOfficeList: [BoxOffice] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,10 @@ class MovieViewController: UIViewController {
         configureUI()
         configureTableView()
         
-        callRequest("20240604")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let yesterday = formatter.string(from: Date() - 86400)
+        callRequest(yesterday)
     }
     
     func configureHierarchy() {
@@ -57,14 +60,14 @@ class MovieViewController: UIViewController {
         }
         
         textField.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(40)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview().inset(16)
             make.height.equalTo(50)
             make.trailing.equalTo(searchButton.snp.leading).offset(-16)
         }
         
         searchButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(40)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.trailing.equalToSuperview().inset(16)
             make.width.equalTo(100)
             make.height.equalTo(60)
@@ -120,7 +123,7 @@ class MovieViewController: UIViewController {
             switch response.result {
             case .success(let value):
                 print("SUCCESS")
-                self.movieList = value.boxOfficeResult.dailyBoxOfficeList
+                self.boxOfficeList = value.boxOfficeResult.dailyBoxOfficeList
                 self.tableView.reloadData()
                 
             case .failure(let error):
@@ -132,14 +135,14 @@ class MovieViewController: UIViewController {
 
 extension MovieViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieList.count
+        return boxOfficeList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.identifier, for: indexPath) as! MovieTableViewCell
         
-        let movie = movieList[indexPath.row]
-        cell.configureCell(movie)
+        let boxOffice = boxOfficeList[indexPath.row]
+        cell.configureCell(boxOffice)
         
         cell.backgroundColor = .clear
         return cell

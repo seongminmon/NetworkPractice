@@ -65,10 +65,10 @@ class MovieTableViewCell: UITableViewCell {
         dateLabel.textAlignment = .right
     }
     
-    func configureCell(_ movie: Movie) {
-        numberLabel.text = movie.rank
-        titleLabel.text = movie.movieNm
-        dateLabel.text = movie.openDt
+    func configureCell(_ boxOffice: BoxOffice) {
+        numberLabel.text = boxOffice.rank
+        titleLabel.text = boxOffice.movieNm
+        dateLabel.text = boxOffice.openDt
     }
     
 }
