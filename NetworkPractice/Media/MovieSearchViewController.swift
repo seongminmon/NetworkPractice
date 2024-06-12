@@ -10,32 +10,6 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-struct MovieResponse: Codable {
-    let page: Int
-    var results: [SearchingMovie]
-    let totalPages, totalResults: Int
-
-    enum CodingKeys: String, CodingKey {
-        case page, results
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
-    }
-}
-
-struct SearchingMovie: Codable {
-    let title: String
-    let posterPath: String?
-
-    enum CodingKeys: String, CodingKey {
-        case posterPath = "poster_path"
-        case title
-    }
-    
-    var posterImageURL: URL? {
-        return URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath ?? "")")
-    }
-}
-
 class MovieSearchViewController: UIViewController {
     
     let searchBar = UISearchBar()

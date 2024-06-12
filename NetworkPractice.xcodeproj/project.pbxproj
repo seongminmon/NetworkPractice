@@ -29,6 +29,7 @@
 		2426F55B2C174A02005350A9 /* TrendDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */; };
 		2426F5682C1839BB005350A9 /* MovieSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5672C1839BB005350A9 /* MovieSearchViewController.swift */; };
 		2426F56A2C183E6D005350A9 /* MovieSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5692C183E6D005350A9 /* MovieSearchCollectionViewCell.swift */; };
+		2426F5952C19E8A8005350A9 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426F5942C19E8A8005350A9 /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendDetailViewController.swift; sourceTree = "<group>"; };
 		2426F5672C1839BB005350A9 /* MovieSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchViewController.swift; sourceTree = "<group>"; };
 		2426F5692C183E6D005350A9 /* MovieSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		2426F5942C19E8A8005350A9 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 		2426F5622C1811E8005350A9 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				2426F5942C19E8A8005350A9 /* Movie.swift */,
 				2426F5532C16DC64005350A9 /* TrendViewController.swift */,
 				2426F5582C16EC0D005350A9 /* TrendTableViewCell.swift */,
 				2426F55A2C174A02005350A9 /* TrendDetailViewController.swift */,
@@ -233,6 +236,7 @@
 				2426F4E62C1061F2005350A9 /* SceneDelegate.swift in Sources */,
 				2426F5042C10687D005350A9 /* HomeViewController.swift in Sources */,
 				2426F5102C118021005350A9 /* WeatherViewController.swift in Sources */,
+				2426F5952C19E8A8005350A9 /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

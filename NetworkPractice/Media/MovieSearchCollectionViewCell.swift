@@ -43,7 +43,7 @@ class MovieSearchCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(_ data: SearchingMovie) {
+    func configureCell(_ data: Movie) {
         profileImageView.kf.setImage(with: data.posterImageURL)
 //        titleLabel.text = data.title
     }

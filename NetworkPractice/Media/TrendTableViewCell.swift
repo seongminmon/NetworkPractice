@@ -184,7 +184,7 @@ class TrendTableViewCell: UITableViewCell {
         detailImageView.tintColor = .black
     }
     
-    func configureCell(_ data: TrendMovie?) {
+    func configureCell(_ data: Movie?) {
         guard let data else { return }
         dateLabel.text = data.dateString
         genreLabel.text = data.genreText

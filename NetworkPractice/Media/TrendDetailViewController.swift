@@ -10,36 +10,22 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-struct Credit: Codable {
+struct Credit: Decodable {
     let id: Int
     let cast, crew: [Cast]
 }
 
-struct Cast: Codable {
-    let adult: Bool
-    let gender, id: Int
-    let knownForDepartment: String
-    let name, originalName: String
-    let popularity: Double
+struct Cast: Decodable {
     let profilePath: String?
-    let castID: Int?
+    let name: String
     let character: String?
-    let creditID: String
-    let order: Int?
-    let department: String?
-    let job: String?
-
+    let knownForDepartment: String
+    
     enum CodingKeys: String, CodingKey {
-        case adult, gender, id
-        case knownForDepartment = "known_for_department"
-        case name
-        case originalName = "original_name"
-        case popularity
         case profilePath = "profile_path"
-        case castID = "cast_id"
+        case name
         case character
-        case creditID = "credit_id"
-        case order, department, job
+        case knownForDepartment = "known_for_department"
     }
     
     var posterImageURL: URL? {
@@ -64,8 +50,8 @@ enum Sections: Int, CaseIterable {
 }
 
 class TrendDetailViewController: UIViewController {
-
-    var movie: TrendMovie?  // 이전 화면에서 전달
+    
+    var movie: Movie?       // 이전 화면에서 전달
     var credit: Credit?     // 네트워크로 받아오기
     
     let tableView = UITableView()
@@ -100,7 +86,7 @@ class TrendDetailViewController: UIViewController {
         
         tableView.register(MainCreditCell.self, forCellReuseIdentifier: MainCreditCell.identifier)
         tableView.register(OverViewCreditCell.self, forCellReuseIdentifier: OverViewCreditCell.identifier)
-        tableView.register(CastCreditCell.self, forCellReuseIdentifier: CastCreditCell.identifier)
+        tableView.register(CastAndCrewCreditCell.self, forCellReuseIdentifier: CastAndCrewCreditCell.identifier)
     }
     
     func callRequest() {
@@ -108,7 +94,7 @@ class TrendDetailViewController: UIViewController {
         
         APIURL.movieId = movie.id
         let url = APIURL.movieCreditURL
-
+        
         let header: HTTPHeaders = [
             "accept" : "application/json",
             "Authorization" : APIKey.tmdbAccessToken
@@ -122,7 +108,6 @@ class TrendDetailViewController: UIViewController {
             switch response.result {
             case .success(let value):
                 print("Credit Success")
-//                dump(value)
                 self.credit = value
                 self.tableView.reloadData()
                 
@@ -151,17 +136,17 @@ extension TrendDetailViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return 1
-        case 1: return 1
-        case 2: return credit?.cast.count ?? 0
-        default: return credit?.crew.count ?? 0
+        case 0: 1
+        case 1: 1
+        case 2: credit?.cast.count ?? 0
+        case 3: credit?.crew.count ?? 0
+        default: 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(#function)
         switch indexPath.section {
-        case 0: 
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: MainCreditCell.identifier, for: indexPath) as! MainCreditCell
             let data = movie
             cell.configureCell(data)
@@ -174,16 +159,19 @@ extension TrendDetailViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
             
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: CastCreditCell.identifier, for: indexPath) as! CastCreditCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CastAndCrewCreditCell.identifier, for: indexPath) as! CastAndCrewCreditCell
             let data = credit?.cast[indexPath.row]
-            cell.configureCell(data)
+            cell.configureCellWithCast(data)
+            return cell
+            
+        case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: CastAndCrewCreditCell.identifier, for: indexPath) as! CastAndCrewCreditCell
+            let data = credit?.crew[indexPath.row]
+            cell.configureCellWithCrew(data)
             return cell
             
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: CastCreditCell.identifier, for: indexPath) as! CastCreditCell
-            let data = credit?.crew[indexPath.row]
-            cell.configureCell(data)
-            return cell
+            return UITableViewCell()
         }
     }
     
@@ -242,7 +230,7 @@ class MainCreditCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(_ data: TrendMovie?) {
+    func configureCell(_ data: Movie?) {
         guard let data else { return }
         backgroundImageView.kf.setImage(with: data.backdropImageURL)
         posterImageView.kf.setImage(with: data.posterImageURL)
@@ -288,17 +276,17 @@ class OverViewCreditCell: UITableViewCell {
     }
 }
 
-class CastCreditCell: UITableViewCell {
+class CastAndCrewCreditCell: UITableViewCell {
     
     let profileImageView = UIImageView()
     let nameLabel = UILabel()
-    let characterLabel = UILabel()
+    let detailLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(profileImageView)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(characterLabel)
+        contentView.addSubview(detailLabel)
         
         profileImageView.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(8)
@@ -312,7 +300,7 @@ class CastCreditCell: UITableViewCell {
             make.height.equalTo(30)
         }
         
-        characterLabel.snp.makeConstraints { make in
+        detailLabel.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(4)
             make.leading.equalTo(profileImageView.snp.trailing).offset(16)
             make.trailing.bottom.equalToSuperview().inset(16)
@@ -325,18 +313,25 @@ class CastCreditCell: UITableViewCell {
         
         nameLabel.font = .boldSystemFont(ofSize: 14)
         
-        characterLabel.font = .systemFont(ofSize: 13)
-        characterLabel.textColor = .lightGray
+        detailLabel.font = .systemFont(ofSize: 13)
+        detailLabel.textColor = .lightGray
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(_ data: Cast?) {
+    func configureCellWithCast(_ data: Cast?) {
         guard let data else { return }
         profileImageView.kf.setImage(with: data.posterImageURL)
         nameLabel.text = data.name
-        characterLabel.text = data.character
+        detailLabel.text = data.character
+    }
+    
+    func configureCellWithCrew(_ data: Cast?) {
+        guard let data else { return }
+        profileImageView.kf.setImage(with: data.posterImageURL)
+        nameLabel.text = data.name
+        detailLabel.text = data.knownForDepartment
     }
 }
