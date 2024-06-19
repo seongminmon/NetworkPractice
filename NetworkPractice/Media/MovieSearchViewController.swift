@@ -73,9 +73,7 @@ class MovieSearchViewController: UIViewController {
         )
         searchBar.searchTextField.attributedPlaceholder = attributedString
         // text color
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.textColor = .white
-        }
+        searchBar.searchTextField.textColor = .white
         // background color
         searchBar.barTintColor = .black
         // textfield color
