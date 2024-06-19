@@ -9,6 +9,9 @@ import UIKit
 import Alamofire
 import SnapKit
 
+// 1
+import CoreLocation
+
 // MARK: - WeatherResponse
 struct WeatherResponse: Codable {
     let weather: [Weather]
@@ -78,14 +81,16 @@ class WeatherViewController: UIViewController {
     lazy var greetingView = makeContainerView(greetingLabel)
     
     var response: WeatherResponse?
+    // 2
+    let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureHierarchy()
         configureLayout()
         configureUI()
-        callRequest()
+        
+        checkDeviceLocationAuthorization()
     }
     
     func configureHierarchy() {
@@ -180,6 +185,7 @@ class WeatherViewController: UIViewController {
         
         refreshButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         refreshButton.tintColor = .white
+        refreshButton.addTarget(self, action: #selector(refreshButtonClicked), for: .touchUpInside)
         
         configureLabel(temperatureLabel)
         configureLabel(humidityLabel)
@@ -188,9 +194,14 @@ class WeatherViewController: UIViewController {
         weatherImageView.backgroundColor = .white
         weatherImageView.clipsToBounds = true
         weatherImageView.layer.cornerRadius = 10
+        weatherImageView.image = UIImage(systemName: "cloud.fill")
+        weatherImageView.tintColor = .lightGray
         
         greetingLabel.text = "오늘도 행복한 하루 보내세요"
         configureLabel(greetingLabel)
+        
+        // 4.
+        locationManager.delegate = self
     }
     
     func makeContainerView(_ label: UILabel) -> UIView {
@@ -212,10 +223,15 @@ class WeatherViewController: UIViewController {
     
     func reloadData() {
         dateLabel.text = dateString()
-        locationLabel.text = "서울"
+        locationLabel.text = response?.name
         temperatureLabel.text = response?.main.tempString
         humidityLabel.text = response?.main.humidityString
         windLabel.text = response?.wind.windStirng
+    }
+    
+    @objc func refreshButtonClicked() {
+        print(#function)
+        checkDeviceLocationAuthorization()
     }
     
     func dateString() -> String {
@@ -225,12 +241,23 @@ class WeatherViewController: UIViewController {
         return formatter.string(from: date)
     }
     
-    func callRequest() {
+    func callRequest(lat: Double, lon: Double) {
         let url = APIURL.weatherURL
-        AF.request(url).responseDecodable(of: WeatherResponse.self) { response in
+        let param: Parameters = [
+            "lat": lat,
+            "lon": lon,
+            "units": "metric",
+            "appid": APIKey.weatherKey
+        ]
+        
+        AF.request(
+            url,
+            method: .get,
+            parameters: param
+        ).responseDecodable(of: WeatherResponse.self) { response in
             switch response.result {
             case .success(let value):
-                dump(value)
+                print("SUCCESS")
                 self.response = value
                 self.reloadData()
                 
@@ -239,5 +266,93 @@ class WeatherViewController: UIViewController {
             }
         }
     }
+}
+
+extension WeatherViewController {
     
+    func checkDeviceLocationAuthorization() {
+        // 기기 자체에서 위치 서비스가 활성화 되어있는지
+        
+        if CLLocationManager.locationServicesEnabled() {
+            let status: CLAuthorizationStatus
+            
+            if #available(iOS 14.0, *) {
+                status = self.locationManager.authorizationStatus
+            } else {
+                status = CLLocationManager.authorizationStatus()
+            }
+            
+            self.checkCurrentLocationAuthorization(status: status)
+            
+        } else {
+            showLocationSettingAlert()
+        }
+    }
+    
+    func checkCurrentLocationAuthorization(status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            showLocationSettingAlert()
+        case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        default:
+            print("Error")
+        }
+    }
+    
+    func showLocationSettingAlert() {
+        let alert = UIAlertController(
+            title: "위치 정보 이용",
+            message: "위치 서비스를 이용할 수 없습니다. 기기의 '설정>개인정보 보호'에서 위치 서비스를 켜주세요.",
+            preferredStyle: .alert
+        )
+        
+        let goSetting = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            if let setting = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(setting)
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(goSetting)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true)
+    }
+}
+
+// 3.
+extension WeatherViewController: CLLocationManagerDelegate {
+    
+    // 5.
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(#function)
+        print(locations)
+        
+        if let coordinate = locations.last?.coordinate {
+            callRequest(lat: coordinate.latitude, lon: coordinate.longitude)
+        }
+        
+        locationManager.stopUpdatingLocation()
+    }
+    
+    // 6.
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        print(#function)
+        // 영등포구
+        callRequest(lat: 37.52361111, lon: 126.8983417)
+    }
+    
+    // 7.
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        print(#function)
+        checkDeviceLocationAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print(#function)
+    }
 }
